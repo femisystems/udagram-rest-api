@@ -1,6 +1,5 @@
 import express from 'express';
 import { sequelize } from './sequelize';
-// import * as dotenv from 'dotenv';
 import { IndexRouter } from './controllers/v0/index.router';
 import bodyParser from 'body-parser';
 import { V0MODELS } from './controllers/v0/model.index';
@@ -18,7 +17,14 @@ require('dotenv').config();
 
   //CORS Should be restricted
   app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:8100");
+    if (process.env.APP_ENV === 'production') {
+      res.header("Access-Control-Allow-Origin", "d25hsvrrseflpp.cloudfront.net");
+    }
+
+    if (process.env.APP_ENV === 'dev') {
+      res.header("Access-Control-Allow-Origin", "http://localhost:8100");
+    }
+
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
@@ -29,7 +35,6 @@ require('dotenv').config();
   app.get("/", async (req, res) => {
     res.send("/api/v0/");
   });
-
 
   // Start the Server
   app.listen(port, () => {

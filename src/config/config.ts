@@ -14,5 +14,6 @@ export const config = {
     dialect: 'postgres',
     storage: ':memory:'
   },
-  env: process.env.APP_ENV
+  env: process.env.APP_ENV,
+  secret: process.env.JWT_SECRET
 };
